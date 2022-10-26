@@ -1,0 +1,36 @@
+﻿.gridGral {
+    Width: 100%;
+    font-family: Arial Narrow;
+    font-size: smaller;
+}
+.gridRows {
+    font-family: Arial Narrow;
+    font-size: smaller;
+    color: dimgray;
+    font-weight:normal;
+    background-color: White;
+}
+.gridRowsAlt {
+    font-family: Arial Narrow;
+    font-size: smaller;
+    color: dimgray;
+    font-weight: normal;
+    background-color: whitesmoke;
+}
+.gridHeader {
+    background-color: lightgray;
+    position: relative;
+    font-family: Arial Narrow;
+    font-size: smaller;
+    font-weight: normal;
+    color: dimgray;
+    border-bottom: outset 2px dimgray;
+    text-align: left;
+    background-attachment: scroll;
+    background-repeat: repeat-x;
+}
+
+
+.labelerror {
+    text-align: center;
+}

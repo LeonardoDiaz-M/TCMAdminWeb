@@ -1,0 +1,206 @@
+﻿
+
+.Titulo{
+    padding-top: 3px;
+    text-align: center;
+    color: DimGray;
+    font-size: large;
+    font-weight: bold;
+    font-family: AvenirNext LT Pro Bold;
+    width: 100%;        
+}
+.SubTitulo {
+    font-size: medium;
+    text-align: left;
+    color: #333300;
+    font-family: Tahoma;
+    font-weight: bold;
+}
+
+.tablarequerimientos {
+    text-align: center;
+    border-style: outset;
+    border-width: 2px;
+    background-color: #FDFDFB;
+    width: 100%;
+}
+
+
+.tabladatos {
+    border-style: solid;
+    border-width: 0px;
+    border-color: black;
+    background-color: whitesmoke;
+    width: 100%;
+    height: 100%;
+}
+
+
+.Tablaliquida {
+    font-family: Verdana;
+    font-size: small;
+    font-weight: bold;
+    color: black;
+    margin: 0;
+    border: outset 0px dimgray;
+    padding: 0;
+    list-style: none;
+    height: 10px;
+    border-spacing: 0;
+    background-color: White;
+    width: 100%;
+}
+
+
+.EncabezadoLiquida {
+    text-align: center;
+    font-family: Verdana;
+    font-size: x-small;
+    font-weight: bold;
+    color: black;
+    background-color: transparent;
+    border-bottom: outset 2px dimgray;
+    text-align: center;
+    background-attachment: scroll;
+    background-image: url('imgs/FondoEtq.jpg');
+    background-repeat: repeat-x;
+    height: 25px;
+}
+.lbl {
+    width: 100%;
+    height: 100%;
+    text-align: Left;
+    font-size: small;
+    font-weight: bold;
+    color: dimgray;
+}
+.txtBx {
+    min-width: 100%;
+    left: 0%;
+    height: 100%;
+    text-align: Left;
+    font-size: small;
+    font-weight: normal;
+    color: Black;
+    border-style: solid;
+    border-width: 1px;
+    border-color: silver;
+    background-color: #FFFFFF;
+}
+.nmBx {
+    position: relative;
+    left: 0%;
+    width: 100px;
+    height: 100%;
+    text-align: Left;
+    font-size: small;
+    font-weight: normal;
+    color: Black;
+    border-style: solid;
+    border-width: 1px;
+    border-color: silver;
+    background-color: #FFFFFF;
+}
+.ColumnLabels {
+    padding: 5px;
+    width: 12%;
+    border: 1px;    
+}
+.ColumnLblLarge {
+    padding: 5px;
+    width: 25%;
+    border: 1px;
+}
+.ColumnTexto {
+    padding: 5px;
+    width: 90%;
+}
+.SubTable {
+    width: 50%;
+}
+
+.BarraPago {
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    background-color: White;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.lblTotal {
+    width: 100%;
+    height: 100%;
+    text-align: right;
+    font-size: x-large;
+    font-weight: bold;
+    color: black;
+}
+.modalPnl {
+    Width: 25%;
+    Height: 40%;
+    border-style: outset;
+    border-width: 1px;
+    border-color: blue;
+    background-color: whitesmoke;
+}
+.tablaModalPago {
+    text-align: center;
+    border-color: black;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: outset;
+    border-width: 0px;
+    padding: 5px;
+}
+.modalHeader {
+    width: 100%;
+    height: 25px;
+    background-color: blue;
+    Font-Size: medium;
+    text-align: center;
+    color: white;
+    font-family: Arial;
+    font-weight: bold;
+}
+
+.modalTitulo {
+    padding-top: 3px;
+    text-align: center;
+    color: dimgray;
+    font-size:medium;
+    font-weight: bold;
+    font-family: AvenirNext LT Pro Bold;
+    width: 100%;
+}
+.modallblTotal {
+    width: 100%;
+    height: 50%;
+    background-color: lightpink;
+    border-width: 0px;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    color: black;
+}
+.modallblRecibe {
+    width: 100%;
+    height: 50%;
+    background-color: white;
+    border-color: red;
+    border-width: 2px;
+    text-align: center;
+    font-size: large;
+    font-weight: bolder;
+    color: Black;     
+}
+.defUser {
+    width: 800px;
+    height: 500px;
+    margin: auto;
+    border: 3px solid #73AD21;
+}

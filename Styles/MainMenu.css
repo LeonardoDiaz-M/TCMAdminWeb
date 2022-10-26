@@ -1,0 +1,27 @@
+﻿
+.Padre {
+    background-image: none;
+    background-color: gray;    
+    color:white;
+    font-size:large;
+    vertical-align:middle;    
+}
+
+
+
+.MenuHijo{
+    background-image: none;
+    background-color: whitesmoke;
+    font-size: large;
+    vertical-align: middle;
+}
+
+.Salir {
+    background-image: none; 
+    background-color: Black;        
+    color: white;
+    font-size:xx-large;
+    vertical-align: middle;
+}
+
+

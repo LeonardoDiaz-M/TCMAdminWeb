@@ -1,0 +1,19 @@
+﻿.AyudaHeader {
+    width: 100%;
+    height: 50px;
+    background-color: Silver;
+    Font-Size: Large;
+    text-align: center;
+    color: Black;
+    font-family: Tahoma;
+    font-weight:bolder;
+}
+
+.AyudaPnl {
+    Width: 40%;
+    Height: 40%;
+    border-style: outset;
+    border-width: 7px;
+    border-color: dimgray;
+    background-color: whitesmoke;
+}
