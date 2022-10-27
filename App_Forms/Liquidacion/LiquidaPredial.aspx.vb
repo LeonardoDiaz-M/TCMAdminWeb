@@ -7,11 +7,15 @@ Public Class LiquidaPredial
         If Session("Autenticated") Is Nothing Then
             Me.Response.Redirect("~/Login.aspx")
         End If
-        Me.txtCveCat.Focus()
-        Dim cxn As New cxnSQL
-        cxn.Select_SQL(Me.ddlFmaPago, "SELECT cve_fma_pago, FormaPagoDesc FROM  tbl_SAT_FmaPago order by id asc", "FormaPagoDesc", "cve_fma_pago")
-        Session("idSATCuenta") = 1
-        Session("ImprimePago") = 1  '1-Imprime, 2-Paga
+        If Not Me.IsPostBack Then
+            Me.txtCveCat.Focus()
+            Dim cxn As New cxnSQL
+            cxn.Select_SQL(Me.ddlFmaPago, "SELECT cve_fma_pago, FormaPagoDesc FROM  tbl_SAT_FmaPago order by id asc", "FormaPagoDesc", "cve_fma_pago")
+            Session("idSATCuenta") = 1
+            Session("ImprimePago") = 0  '1-Imprime, 2-Paga
+            Me.btnImprimir.Visible = False
+            Me.btnPagar.Visible = False
+        End If
     End Sub
 
     Protected Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -58,6 +62,9 @@ Public Class LiquidaPredial
                     If CType(Session("NumLiq").ToString, Integer) > 0 Then
                         ChecaEstado()
                         ObtenNumRec()
+                        Session("ImprimePago") = 1  '1-Imprime, 2-PagaSession("ImprimePago") = 0  '1-Imprime, 2-Paga
+                        Me.btnImprimir.Visible = True
+                        Me.btnPagar.Visible = True
                     Else
                         alerts("No se pudo generar la liquidación, verifique la información en el padrón", False, Me.litalert)
                     End If
@@ -75,24 +82,15 @@ Public Class LiquidaPredial
             Session("ReportFileName") = "Reportes\rptPago.rdlc"
             Session("ReportTitle") = "RECIBO DE PAGO "
             Session("ImprimePago") = 2  '1-Imprime, 2-Paga
-            Me.Response.Redirect("~/App_Forms/Reportes.aspx?Modulo=Predial")
+            Me.Response.Redirect("~/Reports/Report.aspx?Modulo=Predial")
         Else
             Me.lblErrorModal.ForeColor = Drawing.Color.Green
             Me.lblErrorModal.Visible = True
             Dim cxnPago As New cxnSQL
-			Session("idSATCuenta") = Me.ddlFmaPago.SelectedValue
-            If cxnPago.Execute_SQL("Exec [App_InsTranPredial] " & Session("NumLiq") & "," &
-                                                                    Session("NumCaja") & "," &
-                                                                    Session("idOficina") & "," &
-                                                                     Me.ddlFmaPago.SelectedValue.ToString()) Then
-                Me.windowModal.Header.CloseBox.Visible = False
-                Me.btnPagar.Text = "Finalizar"
-            Else
-                Me.lblErrorModal.ForeColor = Drawing.Color.Red
-                Me.lblErrorModal.Visible = True
-                Me.lblErrorModal.Text = "Error al procesar pago, " & cxnPago.arrayValores(0)
-                Me.btnPagar.Visible = False
-            End If
+            Session("idSATCuenta") = Me.ddlFmaPago.SelectedValue
+            Me.windowModal.Header.CloseBox.Visible = False
+            Me.ddlFmaPago.Visible = False
+            Me.btnPagar.Text = "Finalizar"
         End If
     End Sub
     Protected Sub btnContinuar_Click(sender As Object, e As EventArgs) Handles btnContinuar.Click
@@ -100,8 +98,10 @@ Public Class LiquidaPredial
         Me.txtTotalModal.Text = Session("suma")
         Me.windowModal.Visible = True
         Me.windowModal.WindowState = DialogWindowState.Normal
+        Me.ddlFmaPago.Visible = True
     End Sub
     Protected Sub chkSelect_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        Session("NumRec") = 0
         ObtenNumRec()
     End Sub
 
@@ -173,5 +173,13 @@ Public Class LiquidaPredial
             i = i + 1
         Next
         Session("Estado") = Estado
+    End Sub
+
+    Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
+        Session("ImprimePago") = 1  '1-Imprime, 2-Paga
+        Session("idSATCuenta") = 1
+        Me.Response.Redirect("~/Reports/Report.aspx?Modulo=Predial")
+        'Dim txtJS As String = String.Format("<script>alert('{0}');</script>", msg)
+        'ScriptManager.RegisterClientScriptBlock(litalert, litalert.GetType(), "script", txtJS, False)
     End Sub
 End Class

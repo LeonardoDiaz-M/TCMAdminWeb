@@ -52,7 +52,7 @@ Public Class Report
             crystalReport.SetDatabaseLogon("MpioSQL", "Administrator1#", "svrsqltricat.database.windows.net", "TCM_Admin")
             crystalReport.SetDataSource(dsPago)
             crystalReport.Refresh()
-            crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, "c:\temp\data.pdf")
+            'crystalReport.ExportToDisk(ExportFormatType.PortableDocFormat, "c:\temp\data.pdf")
             CrystalReportViewer1.ReportSource = crystalReport
             'CrystalReportViewer1.RefreshReport()
         Else

@@ -6,7 +6,12 @@
 <%@ Register Assembly="Infragistics4.Web.v19.2, Version=19.2.20192.8, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" namespace="Infragistics.Web.UI.EditorControls" tagprefix="ig" %>
 <%@ Register Assembly="Infragistics4.WebUI.WebDataInput.v19.2, Version=19.2.20192.8, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" namespace="Infragistics.WebUI.WebDataInput" tagprefix="igtxt" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">    
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server"> 
+    <script>
+        function openReport() {
+            window.open("~/Reports/Report.aspx?Modulo=Predial");
+        }
+    </script>
     <div class="Titulo">LIQUIDACIÓN DE ADEUDOS DEL IMPUESTO PREDIAL </div>    
     <hr />
     <div class="SubTitulo"> <strong>INFORMACIÓN REQUERIDA</strong></div>        
@@ -150,7 +155,8 @@
        <table class="BarraPago">
              <tr>
                             <td Class="btn btn-small btn-primary glyphicon glyphicon-print" >                                 
-                                <asp:LinkButton ID="btnimprime" runat="server"  BackColor="Transparent" ForeColor="White" PostBackUrl="~/Reports/Report.aspx?Modulo=Predial" OnClientClick="window.document.forms[0].target='_blank'">Imprimir</asp:LinkButton>
+                                <%--<asp:LinkButton ID="btnimprime" runat="server"  BackColor="Transparent" ForeColor="White" PostBackUrl="~/Reports/Report.aspx?Modulo=Predial" OnClientClick="window.document.forms[0].target='_blank'">Imprimir</asp:LinkButton>--%>                                
+                                &nbsp;<asp:Button ID="btnImprimir" runat="server" BackColor="Transparent" BorderWidth="0px" ForeColor="White" Text="Imprimir" ViewStateMode="Enabled" OnClientClick="aspnetForm.target ='_blank';"/>
                              </td>           
                             <td>&nbsp;</td>
                             <td class="btn btn-warning glyphicon glyphicon-ok">                               
