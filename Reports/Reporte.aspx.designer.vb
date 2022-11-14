@@ -11,16 +11,25 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class Report
+Partial Public Class Reporte
 
     '''<summary>
-    '''CrystalReportViewer1 control.
+    '''form1 control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents CrystalReportViewer1 As Global.CrystalDecisions.Web.CrystalReportViewer
+    Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
+
+    '''<summary>
+    '''ScriptManager1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ScriptManager1 As Global.System.Web.UI.ScriptManager
 
     '''<summary>
     '''litalert control.
@@ -39,4 +48,13 @@ Partial Public Class Report
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents ReportViewer1 As Global.Microsoft.Reporting.WebForms.ReportViewer
+
+    '''<summary>
+    '''CrystalReportViewer1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents CrystalReportViewer1 As Global.CrystalDecisions.Web.CrystalReportViewer
 End Class

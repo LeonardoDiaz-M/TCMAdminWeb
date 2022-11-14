@@ -1,6 +1,45 @@
 ﻿Public Class LiquidaTraslado
     Inherits System.Web.UI.Page
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("Autenticated") Is Nothing Then
+            Me.Response.Redirect("~/Login.aspx")
+        End If
+        If Not IsPostBack Then
 
+        End If
+        If Not Me.IsPostBack Then
+            Me.DatCont.Visible = False
+            Me.DatLiq.Visible = False
+            Me.Button2.Visible = True
+            Me.txtCveCat.Visible = True
+            Me.WDFechaOperacion.Visible = True
+            Me.txtMontoOperacion.Visible = True
+            Me.chkCopropiedad.Visible = True
+            Me.chkUsufructo.Visible = True
+            Me.usrConfirmaPago.Visible = True
+            Me.usrConfirmaPago.modal = False
+            Me.txtCveCat.Focus()
+            Session("ImprimePago") = 0
+            Session("ModalVisble") = 0
+            Session("Modulo") = "Agua"
+            Session("SQLStore") = "App_InsertaTransaccion"
+        End If
+        If Session("ModalVisble") IsNot Nothing Then
+            If Session("ModalVisble") = 2 Then
+                Me.txtCveCat.Text = ""
+                Me.DatCont.Visible = False
+                Me.DatLiq.Visible = False
+                Me.TxtPropietario.Text = ""
+                Me.TxtUbicacion.Text = ""
+                Me.TxtAño.Text = ""
+                Me.TxtMes.Text = ""
+                Session("suma") = 0
+                Session("NumLiq") = 0
+                Session("NumRec") = 0
+                Me.pnlBtns.Visible = False
+            End If
+        End If
+    End Sub
     Protected Sub Button2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button2.Click
         Me.DatCont.Visible = False
         Me.DatLiq.Visible = False
@@ -8,6 +47,7 @@
         Session("suma") = 0
         Session("NumLiq") = 0
         Session("NumRec") = 0
+        Me.pnlBtns.Visible = False
         If Me.txtCveCat.Text.Trim.Length = "16" Then
             datosCont.Select_SQL("select Propietario, Ubicacion,ult_año_pag,ult_mes_pag,forma_pago from arc_predial where cve_Catastral='" & Me.txtCveCat.Text.Trim & "'")
             If datosCont.arrayValores(0) IsNot Nothing Then
@@ -36,6 +76,7 @@
                 Next
                 Me.lblTotal.Text = Session("suma")
                 If CType(Session("NumLiq").ToString, Integer) > 0 Then
+                    Me.pnlBtns.Visible = True
                     Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
                     Me.grdresults.HeaderRow.Cells(2).Text = "PER INI"
                     Me.grdresults.HeaderRow.Cells(3).Text = "PER FIN"
@@ -53,6 +94,7 @@
                     Me.grdresults.HeaderRow.Cells(15).Visible = False
                     Me.grdresults.HeaderRow.Cells(16).Visible = False
                 Else
+                    Me.pnlBtns.Visible = False
                     alerts("No se pudo generar la liquidación, verifique la información en el padrón", False, Me.litalert)
                 End If
             Else
@@ -63,25 +105,6 @@
         End If
         Me.txtCveCat.Focus()
     End Sub
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If Session("Autenticated") Is Nothing Then
-            Me.Response.Redirect("~/Login.aspx")
-        End If
-        If Not IsPostBack Then
-            Me.DatCont.Visible = False
-            Me.DatLiq.Visible = False
-            Me.Button2.Visible = True
-            Me.txtCveCat.Visible = True
-            Me.WDFechaOperacion.Visible = True
-            Me.txtMontoOperacion.Visible = True
-            Me.chkCopropiedad.Visible = True
-            Me.chkUsufructo.Visible = True
-            Dim cxn As New cxnSQL
-            cxn.Select_SQL(Me.ddlFmaPago, "SELECT cve_fma_pago, FormaPagoDesc FROM  tbl_SAT_FmaPago order by id asc", "FormaPagoDesc", "cve_fma_pago")
-        End If
-
-    End Sub
-
     Protected Sub chkCopropiedad_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkCopropiedad.CheckedChanged
         If Me.chkCopropiedad.Checked Then
             Me.lblPorcentaje.Visible = True
@@ -114,34 +137,23 @@
 
 
     Protected Sub btnContinuar_Click(sender As Object, e As EventArgs) Handles btnContinuar.Click
-        Me.txtTotalModal.Text = Session("suma")
-        Me.windowModal.Visible = True
+        Session("ModalVisble") = 1
+        Session("NumRecReport") = Session("NumRec")
+        Session("NumLiqReport") = Session("NumLiq")
+        Me.usrConfirmaPago.modal = True
     End Sub
-    Protected Sub btnPagar_Click(sender As Object, e As EventArgs) Handles btnPagar.Click
-        If Me.btnPagar.Text = "Finalizar" Then
-            Session("ReportFileName") = "Reportes\rptPago.rdlc"
-            Session("ReportTitle") = "RECIBO DE PAGO "
-            Me.Response.Redirect("~/App_Forms/Reportes.aspx")
-        Else
-            Me.lblErrorModal.ForeColor = Drawing.Color.Green
-                Me.lblErrorModal.Visible = True
 
-                Dim cxnPago As New cxnSQL
-            If cxnPago.Execute_SQL("Exec [App_InsertaTransaccion] " & Session("NumLiq") & "," &
-                                                                    Session("CajaFolio") &
-                                                                    ",'" & Session("CajaNum") & "'," &
-                                                                    Session("idOficina") & ",1," &
-                                                                    Me.ddlFmaPago.SelectedValue.ToString()
-                                                                    ) Then
-                Me.windowModal.Header.CloseBox.Visible = False
-                Me.btnPagar.Text = "Finalizar"
-            Else
-                Me.lblErrorModal.ForeColor = Drawing.Color.Red
-                Me.lblErrorModal.Visible = True
-                Me.lblErrorModal.Text = "Error al procesar pago, " & cxnPago.arrayValores(0)
-                Me.btnPagar.Visible = False
-            End If
-        End If
+    Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
+        Session("ImprimePago") = 1  '1-Imprime, 2-Paga
+        Session("idSATCuenta") = 1
+        Session("Modulo") = "Agua"
+        Session("NumRecReport") = Session("NumRec")
+        Session("NumLiqReport") = Session("NumLiq")
+        ReportWindow()
+    End Sub
+    Private Sub ReportWindow()
+        Dim txtJS As String = "<script>window.open(""http://" & Request.ServerVariables("HTTP_HOST") & "/Reports/Reporte.aspx"",""Reporte de Liquidación"", 'toolbars=0,width=600,height=600,left=200,top=200,scrollbars=1,resizable=1,toolbar=0,status=0,menubar=0');</script>"
+        ScriptManager.RegisterClientScriptBlock(litalert, litalert.GetType(), "script", txtJS, False)
     End Sub
 
 End Class

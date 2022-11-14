@@ -1,14 +1,8 @@
-﻿Imports System.Data
-Imports System.Configuration
-Imports System.Data.SqlClient
-Imports CrystalDecisions.CrystalReports.Engine
+﻿Imports CrystalDecisions.CrystalReports.Engine
 Imports CrystalDecisions.Shared
 Imports Microsoft.Reporting.WebForms
-Imports Microsoft.ReportingServices.ReportProcessing.OnDemandReportObjectModel
-Imports log4net
-Imports CrystalDecisions.Web
 
-Public Class Report
+Public Class Reporte
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -21,24 +15,34 @@ Public Class Report
             Select Case Session("Modulo")
                 Case "Predial"
                     reporte = "rpliquidaPredial.rdlc"
-                Case "Licencias"
-                    reporte = ""
+                Case "LicAnuncio"
+                    reporte = "rpliquidaAnuncios.rdlc"
                 Case "Agua"
-                    store = "App_InsertaTransaccion"
-                Case "Otros"
+                    reporte = "rpliquidaAgua.rdlc"
+                Case "Derecho"
+                    reporte = "rpliquidaDerechos.rdlc"
+                Case "Estacionamiento"
+                    reporte = "rpliquidaEstacionamientos.rdlc"
+                Case "Traslado"
+                    reporte = "rpliquidaTraslado.rdlc"
+                Case "VideoJuego"
+                    reporte = "rpliquidaVideoJuegos.rdlc"
+                Case "Licencias"
+                    reporte = "rpliquidaLicencias.rdlc"
+                Case "Convenios"
+                    reporte = "rpliquidaDerechos.rdlc"
+                Case Else
+                    alerts("Error, no se encontro reporte para el modulo: " & Session("Modulo"), False, Me.litalert)
             End Select
-            If cxn1.Select_SQL("Exec  Rpt_liq_web '" & Session("NumLiq").ToString & "','" & Session("NumRec").ToString & "'") Then
-                If Session("ImprimePago") = 1 Then
-                    Me.CrystalReportViewer1.Visible = False
-                    Me.ReportViewer1.Visible = True
-                    Load_RDLC(reporte) ' Se imprime el reporte de acuerdo al Modulo
-                ElseIf Session("ImprimePago") = 2 Then
-                    Me.CrystalReportViewer1.Visible = True
-                    Me.ReportViewer1.Visible = False
-                    Load_Crystal() 'Se imprime el reporte generico para comprobante de pago
-                End If
-            Else
-                alerts("No se pudo generar el reporte<br/>" & cxn1.arrayValores(0), False, Me.litalert)
+
+            If Session("ImprimePago") = 1 Then
+                Me.CrystalReportViewer1.Visible = False
+                Me.ReportViewer1.Visible = True
+                Load_RDLC(reporte) ' Se imprime el reporte de acuerdo al Modulo
+            ElseIf Session("ImprimePago") = 2 Then
+                Me.CrystalReportViewer1.Visible = True
+                Me.ReportViewer1.Visible = False
+                Load_Crystal() 'Se imprime el reporte generico para comprobante de pago
             End If
         End If
     End Sub
@@ -53,14 +57,15 @@ Public Class Report
         ds = cxn1.Select_SQL("select * 
                                 from  datos_mpio d,tab_liquidaciones t
                                     inner join tab_det_liquidaciones tl on tl.id_liq=t.id_liq
-                                where t.id_liq= " & Session("NumLiq").ToString &
-                               "       and tl.num_rec<=" & Session("NumRec").ToString, ds)
+                                where t.id_liq= " & Session("NumLiqReport").ToString &
+                               "       and tl.num_rec<=" & Session("NumRecReport").ToString, ds)
         ReportViewer1.ProcessingMode = ProcessingMode.Local
         ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/Reports/" & reporte)
         ReportViewer1.LocalReport.DataSources.Clear()
         Dim DataSet1 As ReportDataSource = New ReportDataSource("Rpt_Liq_Web", ds.Tables(0))
         DataSet1.Name = "DataSet1"
         ReportViewer1.LocalReport.DataSources.Add(DataSet1)
+        ReportViewer1.LocalReport.EnableExternalImages = True
         ReportViewer1.LocalReport.Refresh()
     End Sub
     Private Sub Load_Crystal()
@@ -76,8 +81,8 @@ Public Class Report
         Dim dsPago As New DataSet
 
         dsMpio = cxn1.Select_SQL("select * from datos_mpio", dsMpio)
-        dstabLiq = cxn1.Select_SQL("select * from tab_liquidaciones where id_Liq=" & Session("NumLiq").ToString, dstabLiq)
-        dstabLiqDet = cxn1.Select_SQL("select * from tab_det_liquidaciones where id_Liq=" & Session("NumLiq").ToString & " and num_rec<=" & Session("NumRec").ToString, dstabLiqDet)
+        dstabLiq = cxn1.Select_SQL("select * from tab_liquidaciones where id_Liq=" & Session("NumLiqReport").ToString, dstabLiq)
+        dstabLiqDet = cxn1.Select_SQL("select * from tab_det_liquidaciones where id_Liq=" & Session("NumLiqReport").ToString & " and num_rec<=" & Session("NumRecReport").ToString, dstabLiqDet)
         tblMpio = dsMpio.Tables(0).Copy()
         tblMpio.TableName = "datos_mpio"
         tblLiq = dstabLiq.Tables(0).Copy()
@@ -94,4 +99,5 @@ Public Class Report
         CrystalReportViewer1.PrintMode = CrystalDecisions.Web.PrintMode.ActiveX
         CrystalReportViewer1.ReportSource = crystalReport
     End Sub
+
 End Class

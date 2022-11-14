@@ -1,24 +1,55 @@
 ﻿Public Class LiquidaAnunciosPublicitarios
     Inherits System.Web.UI.Page
     Protected Numreg As Integer
-
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If Session("Autenticated") Is Nothing Then
+            Me.Response.Redirect("~/Login.aspx")
+        End If
+        If Not Me.IsPostBack Then
+            Me.DatCont.Visible = False
+            Me.DatLiq.Visible = False
+            Me.usrConfirmaPago.Visible = True
+            Me.usrConfirmaPago.modal = False
+            Me.txtCveCta.Focus()
+            Session("ImprimePago") = 0
+            Session("ModalVisble") = 0
+            Session("Modulo") = "LicAnuncio"
+            Session("SQLStore") = "App_InsTranLicencias"
+        End If
+        If Session("ModalVisble") IsNot Nothing Then
+            If Session("ModalVisble") = 2 Then
+                Me.txtCveCta.Text = ""
+                Me.DatCont.Visible = False
+                Me.DatLiq.Visible = False
+                Me.TxtPropietario.Text = ""
+                Me.TxtUbicacion.Text = ""
+                Me.TxtAño.Text = ""
+                Me.TxtMes.Text = ""
+                Session("suma") = 0
+                Session("NumLiq") = 0
+                Session("NumRec") = 0
+                Me.pnlBtns.Visible = False
+            End If
+        End If
+    End Sub
     Protected Sub Button2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button2.Click
         Dim datosCont As New cxnSQL
         Session("suma") = 0
         Session("NumLiq") = 0
         Session("NumRec") = 0
+        Me.pnlBtns.Visible = False
         Dim Cta As String
         Dim EsTmp As Short
         Me.txtCveCta.Text = Me.txtCveCta.Text.ToUpper
-        If Me.txtCveCta.Text.Trim.Length = "8" Then
+        If Me.txtCveCta.Text.Trim.Length = "9" Then
             If Me.chkTemporal.Checked = True Then
                 EsTmp = 1
             Else
                 EsTmp = 0
             End If
-            Cta = Me.txtCveCta.Text.Substring(0, 2) & "-" & Me.txtCveCta.Text.Substring(2, 6)
+            'Cta = Me.txtCveCta.Text.Substring(0, 2) & "-" & Me.txtCveCta.Text.Substring(4, 6)
             If Me.txtCveCta.Text.Substring(0, 2) = "PA" Then
-                datosCont.Select_SQL("select Nombre,Responsable,calle,no_ext,ult_año_pago,ult_mes_pago from tbl_lic_municipales where cve_Licencia='" & Cta & "'")
+                datosCont.Select_SQL("select Nombre,Responsable,calle,no_ext,ult_año_pago,ult_mes_pago from tbl_lic_municipales where cve_Licencia='" & Me.txtCveCta.Text & "'")
                 If datosCont.arrayValores(0) IsNot Nothing Then
                     Me.DatCont.Visible = True
                     Me.DatLiq.Visible = True
@@ -30,10 +61,14 @@
                     If CType(Me.TxtAño.Text, Integer) = Now.Year And CType(Me.TxtMes.Text, Integer) = 12 Then
                         alerts("El contribuyente no tiene adeudos fiscales registrados", False, Me.litalert)
                     Else
+                        Dim cxn1 As New cxnSQL
                         Try
-                            Dim cxn1 As New cxnSQL
-                            cxn1.Select_SQL(Me.grdresults, "Calc_Liq_anuncios '" & Cta & "','" & EsTmp.ToString & "','" & Me.TxtNumDias.Text.Trim & "'")
+
+                            If Not cxn1.Select_SQL(Me.grdresults, "exec Calc_Liq_anuncios '" & Me.txtCveCta.Text & "','" & EsTmp.ToString & "','" & Me.TxtNumDias.Text.Trim & "'") Then
+                                alerts(cxn1.arrayValores(0), False, Me.litalert)
+                            End If
                         Catch ex As Exception
+                            alerts(ex.Message, False, Me.litalert)
                         End Try
                         For Each row As GridViewRow In Me.grdresults.Rows
                             Session("suma") = Session("suma") + row.Cells(14).Text
@@ -51,9 +86,11 @@
                             Me.Panel1.Height = 90%
                         End If
                         If CType(Session("NumLiq").ToString, Integer) > 0 Then
+                            Me.pnlBtns.Visible = True
                             ChecaEstado()
                             ObtenNumRec()
                         Else
+                            Me.pnlBtns.Visible = False
                             alerts("No se pudo generar la liquidación, verifique la información en el padrón", False, Me.litalert)
                         End If
                     End If
@@ -69,15 +106,24 @@
         End If
         Me.txtCveCta.Focus()
     End Sub
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        If Session("Autenticated") Is Nothing Then
-            Me.Response.Redirect("~/App_Forms/Logins.aspx")
-        End If
-        Me.DatCont.Visible = False
-        Me.DatLiq.Visible = False
-        Me.txtCveCta.Focus()
-        Dim cxn As New cxnSQL
-        cxn.Select_SQL(Me.ddlFmaPago, "SELECT cve_fma_pago, FormaPagoDesc FROM  tbl_SAT_FmaPago order by id asc", "FormaPagoDesc", "cve_fma_pago")
+    Protected Sub btnContinuar_Click(sender As Object, e As EventArgs) Handles btnContinuar.Click
+        Session("ModalVisble") = 1
+        Session("NumRecReport") = Session("NumRec")
+        Session("NumLiqReport") = Session("NumLiq")
+        Me.usrConfirmaPago.modal = True
+    End Sub
+
+    Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
+        Session("ImprimePago") = 1  '1-Imprime, 2-Paga
+        Session("idSATCuenta") = 1
+        Session("Modulo") = "LicAnuncio"
+        Session("NumRecReport") = Session("NumRec")
+        Session("NumLiqReport") = Session("NumLiq")
+        ReportWindow()
+    End Sub
+    Private Sub ReportWindow()
+        Dim txtJS As String = "<script>window.open(""http://" & Request.ServerVariables("HTTP_HOST") & "/Reports/Reporte.aspx"",""Reporte de Liquidación"", 'toolbars=0,width=600,height=600,left=200,top=200,scrollbars=1,resizable=1,toolbar=0,status=0,menubar=0');</script>"
+        ScriptManager.RegisterClientScriptBlock(litalert, litalert.GetType(), "script", txtJS, False)
     End Sub
 
     Protected Sub chkTemporal_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkTemporal.CheckedChanged
@@ -124,6 +170,8 @@
             End If
         Next
         ChecaEstado()
+        Me.lblTotal.Text = "Total: " & Session("Suma").ToString
+        Session("ModalVisble") = 1
         Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
         Me.grdresults.HeaderRow.Cells(2).Text = "PER INI"
         Me.grdresults.HeaderRow.Cells(3).Text = "PER FIN"
@@ -155,8 +203,9 @@
     End Sub
 
     Protected Sub chkSelect_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        Session("NumRec") = 0
+        Session("ModalVisble") = 0
         ObtenNumRec()
-        Me.DatLiq.Visible = True
     End Sub
     Private Sub alerts(ByVal msg As String, ByVal redirect As Boolean, ByVal litalert As Literal)
         Dim txtJS As String = String.Format("<script>alert('{0}');</script>", msg)
@@ -165,35 +214,6 @@
     Protected Sub txtObservacion_TextChanged(sender As Object, e As EventArgs) Handles txtObservacion.TextChanged
         Me.txtObservacion.Text = Me.txtObservacion.Text.ToUpper
     End Sub
-    Protected Sub btnContinuar_Click(sender As Object, e As EventArgs) Handles btnContinuar.Click
-        Me.txtTotalModal.Text = Session("suma")
-        Me.windowModal.Visible = True
-    End Sub
-    Protected Sub btnPagar_Click(sender As Object, e As EventArgs) Handles btnPagar.Click
-        If Me.btnPagar.Text = "Finalizar" Then
-            Session("ReportFileName") = "Reportes\rptPago.rdlc"
-            Session("ReportTitle") = "RECIBO DE PAGO "
-            Me.Response.Redirect("~/App_Forms/Reportes.aspx")
-        Else
 
-            Me.lblErrorModal.ForeColor = Drawing.Color.Green
-            Me.lblErrorModal.Visible = True
-            Dim cxnPago As New cxnSQL
-            If cxnPago.Execute_SQL("Exec [App_InsertaTransaccion] " & Session("NumLiq") & "," &
-                                                                Session("CajaFolio") &
-                                                                ",'" & Session("CajaNum") & "'," &
-                                                                Session("idOficina") & ",1," &
-                                                                    Me.ddlFmaPago.SelectedValue.ToString
-                                                                ) Then
-                Me.windowModal.Header.CloseBox.Visible = False
-                Me.btnPagar.Text = "Finalizar"
-            Else
-                Me.lblErrorModal.ForeColor = Drawing.Color.Red
-                Me.lblErrorModal.Visible = True
-                Me.lblErrorModal.Text = "Error al procesar pago, " & cxnPago.arrayValores(0)
-                Me.btnPagar.Visible = False
-            End If
-        End If
-    End Sub
 
 End Class

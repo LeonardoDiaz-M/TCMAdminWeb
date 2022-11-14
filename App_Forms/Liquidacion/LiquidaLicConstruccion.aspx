@@ -4,7 +4,7 @@
 <%@ Import Namespace="System.Data.OleDb" %>
 <%@ Register Assembly="Infragistics4.Web.v19.2, Version=19.2.20192.8, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" namespace="Infragistics.Web.UI.EditorControls" tagprefix="ig" %>
 <%@ Register Assembly="Infragistics4.WebUI.WebDataInput.v19.2, Version=19.2.20192.8, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" namespace="Infragistics.WebUI.WebDataInput" tagprefix="igtxt" %>
-
+<%@ Register Src="~/App_Forms/Liquidacion/usrConfirmaPago.ascx" TagPrefix="uc1" TagName="usrConfirmaPago" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
      <div class="Titulo">LICENCIAS DE CONSTRUCCIÓN</div>    
     <hr />
@@ -171,10 +171,12 @@
                </td>
              </tr>            
        </table>
+        </asp:Panel>
+       <asp:Panel ID="pnlBtns" runat="server" Visible="false">
        <table class="BarraPago">
              <tr>
                             <td Class="btn btn-small btn-primary glyphicon glyphicon-print" >                                 
-                                <asp:LinkButton ID="btnimprime" runat="server"  BackColor="Transparent" ForeColor="White" OnClientClick="window.document.forms[0].target='_blank'" PostBackUrl="~/Reports/Report.aspx?Nombre=Reports/rpliquidaderechos.rdlc" Height="100%" Width="100%">Imprimir</asp:LinkButton>
+                              <asp:Button ID="btnImprimir" runat="server" BackColor="Transparent" BorderWidth="0px" ForeColor="White" Text="Imprimir" ViewStateMode="Enabled" />
                              </td>           
                             <td>&nbsp;</td>
                             <td class="btn btn-warning glyphicon glyphicon-ok">                               
@@ -187,62 +189,8 @@
                             <td>&nbsp;</td>
                         </tr>
         </table>
-
-                                <ig2:WebDialogWindow ID="windowModal" runat="server" InitialLocation="Centered" Modal="True" Visible="False" CssClass="modalPnl">
-                                    <contentpane>
-                                        <template>
-                                        <table class="tablaModalPago">
-                                            <tr>
-                                                <td>
-                                                    <br />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="modalTitulo">TOTAL A PAGAR</div><br />
-                                                    <asp:TextBox ID="txtTotalModal" runat="server" CssClass="modallblTotal" ReadOnly="True"></asp:TextBox>
-                                                </td>
-                                            <tr>
-                                                <td>
-                                                    <br />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="align-items:center">
-                                                    
-                                                    
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="align-items:center">
-                                                    <asp:Label ID="lblErrorModal" runat="server" Font-Bold="True" Font-Size="Medium" ForeColor="Red" Visible="False" Width="100%"></asp:Label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ColumnTexto">Forma de Pago:
-                                                   <asp:DropDownList ID="ddlFmaPago" runat="server" AutoPostBack="True" CssClass="txtBx" DataSourceID="DsDerechos" DataTextField="descripcion" DataValueField="Derecho_Id" Height="22px" Width="430px">
-                                                   </asp:DropDownList>
-                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="btn btn-danger glyphicon glyphicon-credit-card" >
-                                                    <asp:Button ID="btnPagar" runat="server" BackColor="Transparent" Text="REGISTRAR PAGO" Width="100%"  BorderStyle="None" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <br />
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        </template>
-                                    </contentpane>
-                                    <header captiontext="PAGO DE SERVICIOS" cssclass="modalHeader" Font-Bold="True" ForeColor="White"  >
-                                    </header>
-                                    <resizer enabled="True" />
-                                </ig2:WebDialogWindow>
-        </asp:Panel>
-    
+     </asp:Panel>
+    <uc1:usrConfirmaPago runat="server" id="usrConfirmaPago" />
     <asp:Literal ID="litalert" runat="server"></asp:Literal>
     <br />    
 </asp:Content>

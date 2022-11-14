@@ -7,11 +7,10 @@
 <%@ Register Assembly="Infragistics4.WebUI.WebDataInput.v19.2, Version=19.2.20192.8, Culture=neutral, PublicKeyToken=7dd5c3163f2cd0cb" namespace="Infragistics.WebUI.WebDataInput" tagprefix="igtxt" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server"> 
-    <script>
-        function openReport() {
-            window.open("~/Reports/Report.aspx?Modulo=Predial");
-        }
+    <script type = "text/javascript">
+        function SetTarget() { document.forms[0].target = "_blank"; }
     </script>
+
     <div class="Titulo">LIQUIDACIÓN DE ADEUDOS DEL IMPUESTO PREDIAL </div>    
     <hr />
     <div class="SubTitulo"> <strong>INFORMACIÓN REQUERIDA</strong></div>        
@@ -152,11 +151,13 @@
                </td>
              </tr>            
        </table>
+    </asp:Panel>
+    <asp:Panel ID="pnlBtns" runat="server" Visible="false">
        <table class="BarraPago">
              <tr>
                             <td Class="btn btn-small btn-primary glyphicon glyphicon-print" >                                 
                                 <%--<asp:LinkButton ID="btnimprime" runat="server"  BackColor="Transparent" ForeColor="White" PostBackUrl="~/Reports/Report.aspx?Modulo=Predial" OnClientClick="window.document.forms[0].target='_blank'">Imprimir</asp:LinkButton>--%>                                
-                                &nbsp;<asp:Button ID="btnImprimir" runat="server" BackColor="Transparent" BorderWidth="0px" ForeColor="White" Text="Imprimir" ViewStateMode="Enabled" OnClientClick="aspnetForm.target ='_blank';"/>
+                                &nbsp;<asp:Button ID="btnImprimir" runat="server" BackColor="Transparent" BorderWidth="0px" ForeColor="White" Text="Imprimir" ViewStateMode="Enabled" />
                              </td>           
                             <td>&nbsp;</td>
                             <td class="btn btn-warning glyphicon glyphicon-ok">                               
@@ -168,9 +169,9 @@
                             </td>
                             <td>&nbsp;</td>
                         </tr>
-        </table>
-
-                                <ig2:WebDialogWindow ID="windowModal" runat="server" InitialLocation="Centered" Modal="True" Visible="False" CssClass="modalPnl">
+        </table>                               
+    </asp:Panel>
+     <ig2:WebDialogWindow ID="windowModal" runat="server" InitialLocation="Centered" Modal="True" Visible="False" CssClass="modalPnl">
                                     <contentpane>
                                         <template>
                                         <table class="tablaModalPago">
@@ -181,7 +182,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <div class="modalTitulo">TOTAL A PAGAR</div><br />
+                                                    <div class="modalTitulo"<asp:Label ID="lblTotalHdr" runat="server" Font-Bold="True" Font-Size="Medium" ForeColor="Black" Visible="False" Width="100%">TOTAL A PAGAR</asp:Label></div><br />
                                                     <asp:TextBox ID="txtTotalModal" runat="server" CssClass="modallblTotal" ReadOnly="True"></asp:TextBox>
                                                 </td>
                                             <tr>
@@ -200,7 +201,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="ColumnTexto">Forma de Pago:
+                                                <td class="ColumnTexto"><asp:Label ID="lblFmaPago" runat="server" Font-Bold="True" Font-Size="Medium" ForeColor="Black" Visible="False" Width="100%">Seleccione Forma de Pago:</asp:Label>
                                                    <asp:DropDownList ID="ddlFmaPago" runat="server" AutoPostBack="True" CssClass="txtBx" DataSourceID="DsDerechos" DataTextField="descripcion" DataValueField="Derecho_Id" Height="22px" Width="430px">
                                                    </asp:DropDownList>
                                                  </td>
@@ -222,8 +223,6 @@
                                     </header>
                                     <resizer enabled="True" />
                                 </ig2:WebDialogWindow>
-    </asp:Panel>
-    
     <asp:Literal ID="litalert" runat="server"></asp:Literal>
     <br />    
     </asp:Content>

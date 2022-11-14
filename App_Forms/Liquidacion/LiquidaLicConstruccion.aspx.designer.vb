@@ -203,13 +203,22 @@ Partial Public Class LiquidaLicConstruccion
     Protected WithEvents grdresults As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
-    '''btnimprime control.
+    '''pnlBtns control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnimprime As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents pnlBtns As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''btnImprimir control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnImprimir As Global.System.Web.UI.WebControls.Button
 
     '''<summary>
     '''btnContinuar control.
@@ -230,49 +239,13 @@ Partial Public Class LiquidaLicConstruccion
     Protected WithEvents lblTotal As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''windowModal control.
+    '''usrConfirmaPago control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents windowModal As Global.Infragistics.Web.UI.LayoutControls.WebDialogWindow
-
-    '''<summary>
-    '''txtTotalModal control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtTotalModal As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''lblErrorModal control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblErrorModal As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''ddlFmaPago control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ddlFmaPago As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''btnPagar control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnPagar As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents usrConfirmaPago As Global.WebTCMAdmin.usrConfirmaPago
 
     '''<summary>
     '''litalert control.

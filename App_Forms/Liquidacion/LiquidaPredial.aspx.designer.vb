@@ -149,6 +149,15 @@ Partial Public Class LiquidaPredial
     Protected WithEvents grdresults As Global.System.Web.UI.WebControls.GridView
 
     '''<summary>
+    '''pnlBtns control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlBtns As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
     '''btnImprimir control.
     '''</summary>
     '''<remarks>
@@ -185,6 +194,15 @@ Partial Public Class LiquidaPredial
     Protected WithEvents windowModal As Global.Infragistics.Web.UI.LayoutControls.WebDialogWindow
 
     '''<summary>
+    '''lblTotalHdr control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblTotalHdr As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
     '''txtTotalModal control.
     '''</summary>
     '''<remarks>
@@ -201,6 +219,15 @@ Partial Public Class LiquidaPredial
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblErrorModal As Global.System.Web.UI.WebControls.Label
+
+    '''<summary>
+    '''lblFmaPago control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblFmaPago As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
     '''ddlFmaPago control.
