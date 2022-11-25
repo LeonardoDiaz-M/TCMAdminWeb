@@ -12,22 +12,28 @@
             Me.txtCveCta.Focus()
             Session("ImprimePago") = 0
             Session("ModalVisble") = 0
-            Session("Modulo") = "Agua"
-            Session("SQLStore") = "App_InsertaTransaccion"
-        End If
-        If Session("ModalVisble") IsNot Nothing Then
-            If Session("ModalVisble") = 2 Then
-                Me.txtCveCta.Text = ""
-                Me.DatCont.Visible = False
-                Me.DatLiq.Visible = False
-                Me.TxtPropietario.Text = ""
-                Me.TxtUbicacion.Text = ""
-                Me.TxtAño.Text = ""
-                Me.txtObservacion.Text = ""
-                Session("suma") = 0
-                Session("NumLiq") = 0
-                Session("NumRec") = 0
+            Session("Modulo") = "Licencias"
+            Session("SQLStore") = "App_InsTranLicencias"
+        Else
+            If Session("ModalVisble") IsNot Nothing Then
+                If Session("ModalVisble") = 2 Then
+                    Me.txtCveCta.Text = ""
+                    Me.DatCont.Visible = False
+                    Me.DatLiq.Visible = False
+                    Me.TxtPropietario.Text = ""
+                    Me.TxtUbicacion.Text = ""
+                    Me.TxtAño.Text = ""
+                    Me.txtObservacion.Text = ""
+                    Session("suma") = 0
+                    Session("NumLiq") = 0
+                    Session("NumRec") = 0
+                    Me.pnlBtns.Visible = False
+                    Me.usrConfirmaPago.Visible = False
+                    Session.Remove("ModalVisble")
+                End If
+            Else
                 Me.pnlBtns.Visible = False
+                Me.usrConfirmaPago.Visible = False
             End If
         End If
     End Sub
@@ -135,7 +141,7 @@
             End If
         Next
         ChecaEstado()
-        Me.lblTotal.Text = Session("suma")
+        Me.lblTotal.Text = "Total a Pagar: " & FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
         Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
         Me.grdresults.HeaderRow.Cells(2).Text = "PER INI"
         Me.grdresults.HeaderRow.Cells(3).Text = "PER FIN"
@@ -187,7 +193,6 @@
     Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         Session("ImprimePago") = 1  '1-Imprime, 2-Paga
         Session("idSATCuenta") = 1
-        Session("Modulo") = "Agua"
         Session("NumRecReport") = Session("NumRec")
         Session("NumLiqReport") = Session("NumLiq")
         ReportWindow()

@@ -15,19 +15,25 @@ Public Class LiquidaMultasFederales
             Session("ModalVisble") = 0
             Session("Modulo") = "Derecho"
             Session("SQLStore") = "App_InsertaDerechos"
-        End If
-        If Session("ModalVisble") IsNot Nothing Then
-            If Session("ModalVisble") = 2 Then
-                Me.TxtNombre.Text = ""
-                Me.DatLiq.Visible = False
-                Me.TxtDireccion.Text = ""
-                Me.TxtRFC.Text = ""
-                Me.TxtObservacion.Text = ""
-                Session("suma") = 0
-                Session("NumLiq") = 0
-                Session("NumRec") = 0
+        Else
+            If Session("ModalVisble") IsNot Nothing Then
+                If Session("ModalVisble") = 2 Then
+                    Me.TxtNombre.Text = ""
+                    Me.DatLiq.Visible = False
+                    Me.TxtDireccion.Text = ""
+                    Me.TxtRFC.Text = ""
+                    Me.TxtObservacion.Text = ""
+                    Session("suma") = 0
+                    Session("NumLiq") = 0
+                    Session("NumRec") = 0
+                    Me.pnlBtns.Visible = False
+                    Me.ChkNotificado.Checked = False
+                    Me.usrConfirmaPago.Visible = False
+                    Session.Remove("ModalVisble")
+                End If
+            Else
                 Me.pnlBtns.Visible = False
-                Me.ChkNotificado.Checked = False
+                Me.usrConfirmaPago.Visible = False
             End If
         End If
         Me.lblTitulo.Text = "Multas Federales no Fiscales"
@@ -61,6 +67,7 @@ Public Class LiquidaMultasFederales
         Next
         Me.lblTotal.Text = Session("suma")
         If CType(Session("NumLiq").ToString, Integer) > 0 Then
+            Me.lblTotal.Text = "Total a Pagar: " & FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
             Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
             Me.grdresults.HeaderRow.Cells(2).Text = "PER INI"
             Me.grdresults.HeaderRow.Cells(3).Text = "PER FIN"
@@ -117,7 +124,6 @@ Public Class LiquidaMultasFederales
     Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         Session("ImprimePago") = 1  '1-Imprime, 2-Paga
         Session("idSATCuenta") = 1
-        Session("Modulo") = "Derecho"
         Session("NumRecReport") = Session("NumRec")
         Session("NumLiqReport") = Session("NumLiq")
         ReportWindow()

@@ -41,22 +41,28 @@ Public Class LiquidaDerechos
             Session("ModalVisble") = 0
             Session("Modulo") = "Derechos"
             Session("SQLStore") = "App_InsertaDerechos"
-        End If
-        If Session("ModalVisble") IsNot Nothing Then
-            If Session("ModalVisble") = 2 Then
-                Me.TxtNombre.Text = ""
-                Me.DatLiq.Visible = False
-                Me.TxtDireccion.Text = ""
-                Me.TxtRFC.Text = ""
-                Me.TxtObservacion.Text = ""
-                Me.TxtDatoUno.Text = ""
-                Me.TxtDatoDos.Text = ""
-                Session("suma") = 0
-                Session("NumLiq") = 0
-                Session("NumRec") = 0
+        Else
+            If Session("ModalVisble") IsNot Nothing Then
+                If Session("ModalVisble") = 2 Then
+                    Me.TxtNombre.Text = ""
+                    Me.DatLiq.Visible = False
+                    Me.TxtDireccion.Text = ""
+                    Me.TxtRFC.Text = ""
+                    Me.TxtObservacion.Text = ""
+                    Me.TxtDatoUno.Text = ""
+                    Me.TxtDatoDos.Text = ""
+                    Session("suma") = 0
+                    Session("NumLiq") = 0
+                    Session("NumRec") = 0
+                    Me.pnlBtns.Visible = False
+                    Me.lblDatoDos.Visible = False
+                    Me.TxtDatoDos.Visible = False
+                    Me.usrConfirmaPago.Visible = False
+                    Session.Remove("ModalVisble")
+                End If
+            Else
                 Me.pnlBtns.Visible = False
-                Me.lblDatoDos.Visible = False
-                Me.TxtDatoDos.Visible = False
+                Me.usrConfirmaPago.Visible = False
             End If
         End If
     End Sub
@@ -87,6 +93,7 @@ Public Class LiquidaDerechos
             chk.Checked = True
         Next
         If CType(Session("NumLiq").ToString, Integer) > 0 Then
+            Me.lblTotal.Text = "Total a Pagar: " & FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
             Me.pnlBtns.Visible = True
             Me.lblDatoDos.Visible = True
             Me.TxtDatoDos.Visible = True
@@ -165,7 +172,6 @@ Public Class LiquidaDerechos
     Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         Session("ImprimePago") = 1  '1-Imprime, 2-Paga
         Session("idSATCuenta") = 1
-        Session("Modulo") = "Agua"
         Session("NumRecReport") = Session("NumRec")
         Session("NumLiqReport") = Session("NumLiq")
         ReportWindow()

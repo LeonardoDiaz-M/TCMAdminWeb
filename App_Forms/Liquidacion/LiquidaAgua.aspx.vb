@@ -16,20 +16,26 @@ Public Class LiquidaAgua
             Session("ModalVisble") = 0
             Session("Modulo") = "Agua"
             Session("SQLStore") = "App_InsertaTransaccion"
-        End If
-        If Session("ModalVisble") IsNot Nothing Then
-            If Session("ModalVisble") = 2 Then
-                Me.txtCveCta.Text = ""
-                Me.DatCont.Visible = False
-                Me.DatLiq.Visible = False
-                Me.TxtPropietario.Text = ""
-                Me.TxtUbicacion.Text = ""
-                Me.TxtAño.Text = ""
-                Me.TxtMes.Text = ""
-                Session("suma") = 0
-                Session("NumLiq") = 0
-                Session("NumRec") = 0
+        Else
+            If Session("ModalVisble") IsNot Nothing Then
+                If Session("ModalVisble") >= 2 Then
+                    Me.txtCveCta.Text = ""
+                    Me.DatCont.Visible = False
+                    Me.DatLiq.Visible = False
+                    Me.TxtPropietario.Text = ""
+                    Me.TxtUbicacion.Text = ""
+                    Me.TxtAño.Text = ""
+                    Me.TxtMes.Text = ""
+                    Session("suma") = 0
+                    Session("NumLiq") = 0
+                    Session("NumRec") = 0
+                    Me.pnlBtns.Visible = False
+                    Me.usrConfirmaPago.Visible = False
+                    Session.Remove("ModalVisble")
+                End If
+            Else
                 Me.pnlBtns.Visible = False
+                Me.usrConfirmaPago.Visible = False
             End If
         End If
     End Sub
@@ -57,6 +63,7 @@ Public Class LiquidaAgua
                         Dim cxn1 As New cxnSQL
                         cxn1.Select_SQL(Me.grdresults, "Exec Calcula_Agua '" & Me.txtCveCta.Text.Trim & "','" & Me.rbFmaLiq.Text.Trim & "'")
                     Catch ex As Exception
+                        alerts(ex.Message, False, Me.litalert)
                     End Try
                     For Each row As GridViewRow In Me.grdresults.Rows
                         Session("suma") = Session("suma") + row.Cells(16).Text
@@ -96,6 +103,7 @@ Public Class LiquidaAgua
         Session("NumRecReport") = Session("NumRec")
         Session("NumLiqReport") = Session("NumLiq")
         Me.usrConfirmaPago.modal = True
+        Me.usrConfirmaPago.Visible = True
     End Sub
 
     Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
@@ -107,7 +115,7 @@ Public Class LiquidaAgua
         ReportWindow()
     End Sub
     Private Sub ReportWindow()
-        Dim txtJS As String = "<script>window.open(""http://" & Request.ServerVariables("HTTP_HOST") & "/Reports/Reporte.aspx"",""Reporte de Liquidación"", 'toolbars=0,width=600,height=600,left=200,top=200,scrollbars=1,resizable=1,toolbar=0,status=0,menubar=0');</script>"
+        Dim txtJS As String = "<script>window.open(""http://" & Request.ServerVariables("HTTP_HOST") & "/Reports/Reporte.aspx"",""Reporte de Liquidación"", 'width=600,height=600,left=200,top=200,scrollbars=1,resizable=1');</script>"
         ScriptManager.RegisterClientScriptBlock(litalert, litalert.GetType(), "script", txtJS, False)
     End Sub
 
@@ -146,7 +154,7 @@ Public Class LiquidaAgua
             End If
         Next
         ChecaEstado()
-        Me.lblTotal.Text = "Total: " & Session("Suma").ToString
+        Me.lblTotal.Text = "Total a Pagar: " & FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
         Session("ModalVisble") = 1
         Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
         Me.grdresults.HeaderRow.Cells(2).Text = "INICIO"

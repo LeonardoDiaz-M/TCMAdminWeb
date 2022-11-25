@@ -15,20 +15,26 @@ Public Class LiquidaInfraccionesTransito
             Session("ModalVisble") = 0
             Session("Modulo") = "Derecho"
             Session("SQLStore") = "App_InsertaDerechos"
-        End If
-        If Session("ModalVisble") IsNot Nothing Then
-            If Session("ModalVisble") = 2 Then
-                Me.TxtNombre.Text = ""
-                Me.DatLiq.Visible = False
-                Me.TxtDireccion.Text = ""
-                Me.TxtRFC.Text = ""
-                Me.TxtDatoUno.Text = ""
-                Me.TxtDatoDos.Text = ""
-                Me.TxtObservacion.Text = ""
-                Session("suma") = 0
-                Session("NumLiq") = 0
-                Session("NumRec") = 0
+        Else
+            If Session("ModalVisble") IsNot Nothing Then
+                If Session("ModalVisble") = 2 Then
+                    Me.TxtNombre.Text = ""
+                    Me.DatLiq.Visible = False
+                    Me.TxtDireccion.Text = ""
+                    Me.TxtRFC.Text = ""
+                    Me.TxtDatoUno.Text = ""
+                    Me.TxtDatoDos.Text = ""
+                    Me.TxtObservacion.Text = ""
+                    Session("suma") = 0
+                    Session("NumLiq") = 0
+                    Session("NumRec") = 0
+                    Me.pnlBtns.Visible = False
+                    Me.usrConfirmaPago.Visible = False
+                    Session.Remove("ModalVisble")
+                End If
+            Else
                 Me.pnlBtns.Visible = False
+                Me.usrConfirmaPago.Visible = False
             End If
         End If
     End Sub
@@ -57,7 +63,7 @@ Public Class LiquidaInfraccionesTransito
             chk.Checked = True
         Next
         If CType(Session("NumLiq").ToString, Integer) > 0 Then
-            Me.lblTotal.Text = "Total: " & Session("Suma").ToString
+            Me.lblTotal.Text = "Total a Pagar: " & FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
             Session("ModalVisble") = 1
             Me.pnlBtns.Visible = True
             Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
@@ -139,7 +145,6 @@ Public Class LiquidaInfraccionesTransito
     Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         Session("ImprimePago") = 1  '1-Imprime, 2-Paga
         Session("idSATCuenta") = 1
-        Session("Modulo") = "Derecho"
         Session("NumRecReport") = Session("NumRec")
         Session("NumLiqReport") = Session("NumLiq")
         ReportWindow()

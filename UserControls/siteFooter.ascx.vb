@@ -41,13 +41,13 @@
         Dim sql As String = "select Valor from tb_WEBParametros where Parametro  ='<$par$>'"
 
         cxn.Select_SQL(sql.Replace("<$par$>", "FTRImg1"))
-        Session("Img1") = ConvertPath(cxn.arrayValores(0))
+        Session("Img1") = cxn.arrayValores(0) ' ConvertPath(cxn.arrayValores(0))
         cxn.Select_SQL(sql.Replace("<$par$>", "FTRImg2"))
-        Session("Img2") = ConvertPath(cxn.arrayValores(0))
+        Session("Img2") = cxn.arrayValores(0) ' ConvertPath(cxn.arrayValores(0))
         cxn.Select_SQL(sql.Replace("<$par$>", "FTRFace"))
-        Session("face") = ConvertPath(cxn.arrayValores(0))
+        Session("face") = cxn.arrayValores(0) 'ConvertPath(cxn.arrayValores(0))
         cxn.Select_SQL(sql.Replace("<$par$>", "FTRTWT"))
-        Session("twit") = ConvertPath(cxn.arrayValores(0))
+        Session("twit") = cxn.arrayValores(0) 'ConvertPath(cxn.arrayValores(0))
     End Sub
     Private Function ConvertPath(path) As String
         Dim v2 As String = System.Web.Hosting.HostingEnvironment.MapPath("~/")

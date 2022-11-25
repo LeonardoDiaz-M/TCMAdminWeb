@@ -23,6 +23,51 @@ Partial Public Class Reporte
     Protected WithEvents form1 As Global.System.Web.UI.HtmlControls.HtmlForm
 
     '''<summary>
+    '''pnlCrystal control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlCrystal As Global.System.Web.UI.WebControls.Panel
+
+    '''<summary>
+    '''btnPDF control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnPDF As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''btnPrint control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnPrint As Global.System.Web.UI.WebControls.Button
+
+    '''<summary>
+    '''CrystalReportViewer1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents CrystalReportViewer1 As Global.CrystalDecisions.Web.CrystalReportViewer
+
+    '''<summary>
+    '''ReportViewer1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ReportViewer1 As Global.Microsoft.Reporting.WebForms.ReportViewer
+
+    '''<summary>
     '''ScriptManager1 control.
     '''</summary>
     '''<remarks>
@@ -39,22 +84,4 @@ Partial Public Class Reporte
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents litalert As Global.System.Web.UI.WebControls.Literal
-
-    '''<summary>
-    '''ReportViewer1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ReportViewer1 As Global.Microsoft.Reporting.WebForms.ReportViewer
-
-    '''<summary>
-    '''CrystalReportViewer1 control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents CrystalReportViewer1 As Global.CrystalDecisions.Web.CrystalReportViewer
 End Class

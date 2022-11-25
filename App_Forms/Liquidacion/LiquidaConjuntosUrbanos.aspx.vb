@@ -16,14 +16,20 @@
             Dim cxn As New cxnSQL
             cxn.Select_SQL(Me.ddlDerechos, "descripcion", "descripcion", "Derecho_Id")
 
-        End If
-        If Session("ModalVisble") IsNot Nothing Then
-            If Session("ModalVisble") = 2 Then
-                Me.DatLiq.Visible = False
-                Session("suma") = 0
-                Session("NumLiq") = 0
-                Session("NumRec") = 0
+        Else
+            If Session("ModalVisble") IsNot Nothing Then
+                If Session("ModalVisble") = 2 Then
+                    Me.DatLiq.Visible = False
+                    Session("suma") = 0
+                    Session("NumLiq") = 0
+                    Session("NumRec") = 0
+                    Me.pnlBtns.Visible = False
+                    Me.usrConfirmaPago.Visible = False
+                    Session.Remove("ModalVisble")
+                End If
+            Else
                 Me.pnlBtns.Visible = False
+                Me.usrConfirmaPago.Visible = False
             End If
         End If
     End Sub
@@ -54,6 +60,7 @@
             chk.Checked = True
         Next
         If CType(Session("NumLiq").ToString, Integer) > 0 Then
+            Me.lblTotal.Text = "Total a Pagar: " & FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
             Me.pnlBtns.Visible = True
             Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
             Me.grdresults.HeaderRow.Cells(2).Text = "PER INI"

@@ -15,20 +15,26 @@ Public Class LiquidaConvenioParcialidades
             Me.txtClave.Focus()
             Session("ImprimePago") = 0
             Session("ModalVisble") = 0
-        End If
-        If Session("ModalVisble") IsNot Nothing Then
-            If Session("ModalVisble") = 2 Then
-                Me.txtClave.Text = ""
-                Me.DatCont.Visible = False
-                Me.DatLiq.Visible = False
-                Me.TxtPropietario.Text = ""
-                Me.TxtUbicacion.Text = ""
-                Me.TxtAño.Text = ""
-                Me.TxtMes.Text = ""
-                Session("suma") = 0
-                Session("NumLiq") = 0
-                Session("NumRec") = 0
+        Else
+            If Session("ModalVisble") IsNot Nothing Then
+                If Session("ModalVisble") = 2 Then
+                    Me.txtClave.Text = ""
+                    Me.DatCont.Visible = False
+                    Me.DatLiq.Visible = False
+                    Me.TxtPropietario.Text = ""
+                    Me.TxtUbicacion.Text = ""
+                    Me.TxtAño.Text = ""
+                    Me.TxtMes.Text = ""
+                    Session("suma") = 0
+                    Session("NumLiq") = 0
+                    Session("NumRec") = 0
+                    Me.pnlBtns.Visible = False
+                    Me.usrConfirmaPago.Visible = False
+                    Session.Remove("ModalVisble")
+                End If
+            Else
                 Me.pnlBtns.Visible = False
+                Me.usrConfirmaPago.Visible = False
             End If
         End If
     End Sub
@@ -186,7 +192,7 @@ Public Class LiquidaConvenioParcialidades
                 chk.Checked = False
             End If
         Next
-        Me.lblTotal.Text = "Total: " & Session("Suma").ToString
+        Me.lblTotal.Text = "Total a Pagar: " & FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
         Session("ModalVisble") = 1
         Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
         Me.grdresults.HeaderRow.Cells(2).Text = "INICIO"
@@ -242,17 +248,17 @@ Public Class LiquidaConvenioParcialidades
     Protected Sub btnContinuar_Click(sender As Object, e As EventArgs) Handles btnContinuar.Click
         Select Case Me.WDDConceptoPago.SelectedValue
             Case 1 'Predial
-                Session("Modulo") = "Predial"
+                Session("Modulo") = "Convenios"
                 Session("SQLStore") = "App_InsTranPredial"
             Case 2  'Agua
-                Session("Modulo") = "Agua"
+                Session("Modulo") = "Convenios"
                 Session("SQLStore") = "App_InsertaTransaccion"
             Case 3  'Licencias
-                Session("Modulo") = "Licencias"
+                Session("Modulo") = "Convenios"
                 Session("SQLStore") = "App_InsTranLicencias"
             Case 4  'Traslado
-                Session("Modulo") = "Traslado"
-                Session("SQLStore") = "App_InsTranLicencias"
+                Session("Modulo") = "Convenios"
+                Session("SQLStore") = "App_InsTranPredial"
         End Select
         Session("ModalVisble") = 1
         Session("NumRecReport") = Session("NumRec")

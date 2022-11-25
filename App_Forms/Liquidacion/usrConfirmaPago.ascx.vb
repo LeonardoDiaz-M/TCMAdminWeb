@@ -11,7 +11,7 @@ Public Class usrConfirmaPago
             Me.windowModal.Visible = Value
             If Value Then
                 Me.windowModal.WindowState = DialogWindowState.Normal
-                Me.txtTotalModal.Text = Session("Suma")
+                Me.txtTotalModal.Text =  FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
                 Me.btnPagar.Text = "Realizar Pago"
             Else
                 Me.windowModal.WindowState = DialogWindowState.Hidden
@@ -83,7 +83,7 @@ Public Class usrConfirmaPago
         End If
     End Sub
     Private Sub ReportWindow()
-        Dim txtJS As String = "<script>window.open(""http://" & Request.ServerVariables("HTTP_HOST") & "/Reports/Reporte.aspx"",""Reporte de Liquidación"", 'toolbars=0,width=600,height=600,left=200,top=200,scrollbars=1,resizable=1,toolbar=0,status=0,menubar=0');</script>"
+        Dim txtJS As String = "<script>window.open(""http://" & Request.ServerVariables("HTTP_HOST") & "/Reports/Reporte.aspx"",""Reporte de Liquidación"", 'width=600,height=600,left=200,top=200,scrollbars=1,resizable=1,toolbar=0,status=0,menubar=0');</script>"
         ScriptManager.RegisterClientScriptBlock(litalert, litalert.GetType(), "script", txtJS, False)
     End Sub
 End Class

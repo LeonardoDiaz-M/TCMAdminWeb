@@ -4,9 +4,6 @@
         If Session("Autenticated") Is Nothing Then
             Me.Response.Redirect("~/Login.aspx")
         End If
-        If Not IsPostBack Then
-
-        End If
         If Not Me.IsPostBack Then
             Me.DatCont.Visible = False
             Me.DatLiq.Visible = False
@@ -21,22 +18,28 @@
             Me.txtCveCat.Focus()
             Session("ImprimePago") = 0
             Session("ModalVisble") = 0
-            Session("Modulo") = "Agua"
-            Session("SQLStore") = "App_InsertaTransaccion"
-        End If
-        If Session("ModalVisble") IsNot Nothing Then
-            If Session("ModalVisble") = 2 Then
-                Me.txtCveCat.Text = ""
-                Me.DatCont.Visible = False
-                Me.DatLiq.Visible = False
-                Me.TxtPropietario.Text = ""
-                Me.TxtUbicacion.Text = ""
-                Me.TxtAño.Text = ""
-                Me.TxtMes.Text = ""
-                Session("suma") = 0
-                Session("NumLiq") = 0
-                Session("NumRec") = 0
+            Session("Modulo") = "Traslado"
+            Session("SQLStore") = "App_InsTranPredial"
+        Else
+            If Session("ModalVisble") IsNot Nothing Then
+                If Session("ModalVisble") = 2 Then
+                    Me.txtCveCat.Text = ""
+                    Me.DatCont.Visible = False
+                    Me.DatLiq.Visible = False
+                    Me.TxtPropietario.Text = ""
+                    Me.TxtUbicacion.Text = ""
+                    Me.TxtAño.Text = ""
+                    Me.TxtMes.Text = ""
+                    Session("suma") = 0
+                    Session("NumLiq") = 0
+                    Session("NumRec") = 0
+                    Me.pnlBtns.Visible = False
+                    Me.usrConfirmaPago.Visible = False
+                    Session.Remove("ModalVisble")
+                End If
+            Else
                 Me.pnlBtns.Visible = False
+                Me.usrConfirmaPago.Visible = False
             End If
         End If
     End Sub
@@ -74,7 +77,7 @@
                     Dim chk As CheckBox = CType(row.FindControl("chkSelect"), CheckBox)
                     chk.Checked = True
                 Next
-                Me.lblTotal.Text = Session("suma")
+                Me.lblTotal.Text = "Total a Pagar: " & FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
                 If CType(Session("NumLiq").ToString, Integer) > 0 Then
                     Me.pnlBtns.Visible = True
                     Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
@@ -141,12 +144,12 @@
         Session("NumRecReport") = Session("NumRec")
         Session("NumLiqReport") = Session("NumLiq")
         Me.usrConfirmaPago.modal = True
+        Me.usrConfirmaPago.Visible = True
     End Sub
 
     Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         Session("ImprimePago") = 1  '1-Imprime, 2-Paga
         Session("idSATCuenta") = 1
-        Session("Modulo") = "Agua"
         Session("NumRecReport") = Session("NumRec")
         Session("NumLiqReport") = Session("NumLiq")
         ReportWindow()

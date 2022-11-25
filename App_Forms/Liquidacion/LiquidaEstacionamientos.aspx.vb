@@ -13,25 +13,30 @@
             Me.txtCveCta.Focus()
             Session("ImprimePago") = 0
             Session("ModalVisble") = 0
-            Session("Modulo") = "Licencias"
+            Session("Modulo") = "Estacionamiento"
             Session("SQLStore") = "App_InsTranLicencias"
-        End If
-        If Session("ModalVisble") IsNot Nothing Then
-            If Session("ModalVisble") = 2 Then
-                Me.txtCveCta.Text = ""
-                Me.DatCont.Visible = False
-                Me.DatLiq.Visible = False
-                Me.TxtPropietario.Text = ""
-                Me.TxtUbicacion.Text = ""
-                Me.TxtAño.Text = ""
-                Me.TxtMes.Text = ""
-                Session("suma") = 0
-                Session("NumLiq") = 0
-                Session("NumRec") = 0
+        Else
+            If Session("ModalVisble") IsNot Nothing Then
+                If Session("ModalVisble") = 2 Then
+                    Me.txtCveCta.Text = ""
+                    Me.DatCont.Visible = False
+                    Me.DatLiq.Visible = False
+                    Me.TxtPropietario.Text = ""
+                    Me.TxtUbicacion.Text = ""
+                    Me.TxtAño.Text = ""
+                    Me.TxtMes.Text = ""
+                    Session("suma") = 0
+                    Session("NumLiq") = 0
+                    Session("NumRec") = 0
+                    Me.pnlBtns.Visible = False
+                    Me.usrConfirmaPago.Visible = False
+                    Session.Remove("ModalVisble")
+                End If
+            Else
                 Me.pnlBtns.Visible = False
+                Me.usrConfirmaPago.Visible = False
             End If
         End If
-
     End Sub
     Protected Sub Button2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button2.Click
         Dim datosCont As New cxnSQL
@@ -135,7 +140,7 @@
             End If
         Next
         ChecaEstado()
-        Me.lblTotal.Text = "Total: " & Session("Suma").ToString
+        Me.lblTotal.Text = "Total a Pagar: " & FormatCurrency(Session("Suma").ToString, , , TriState.True, TriState.True)
         Session("ModalVisble") = 1
         Me.grdresults.HeaderRow.Cells(1).Text = "AÑO"
         Me.grdresults.HeaderRow.Cells(2).Text = "PER INI"
@@ -189,7 +194,6 @@
     Protected Sub btnImprimir_Click(sender As Object, e As EventArgs) Handles btnImprimir.Click
         Session("ImprimePago") = 1  '1-Imprime, 2-Paga
         Session("idSATCuenta") = 1
-        Session("Modulo") = "Licencias"
         Session("NumRecReport") = Session("NumRec")
         Session("NumLiqReport") = Session("NumLiq")
         ReportWindow()

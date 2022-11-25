@@ -185,67 +185,13 @@ Partial Public Class LiquidaPredial
     Protected WithEvents lblTotal As Global.System.Web.UI.WebControls.Label
 
     '''<summary>
-    '''windowModal control.
+    '''usrConfirmaPago control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents windowModal As Global.Infragistics.Web.UI.LayoutControls.WebDialogWindow
-
-    '''<summary>
-    '''lblTotalHdr control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblTotalHdr As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''txtTotalModal control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents txtTotalModal As Global.System.Web.UI.WebControls.TextBox
-
-    '''<summary>
-    '''lblErrorModal control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblErrorModal As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''lblFmaPago control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents lblFmaPago As Global.System.Web.UI.WebControls.Label
-
-    '''<summary>
-    '''ddlFmaPago control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents ddlFmaPago As Global.System.Web.UI.WebControls.DropDownList
-
-    '''<summary>
-    '''btnPagar control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnPagar As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents usrConfirmaPago As Global.WebTCMAdmin.usrConfirmaPago
 
     '''<summary>
     '''litalert control.
